@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_demo/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,8 +22,26 @@ class _LoginPageState extends State<LoginPage> {
         isLoading = true;
       });
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _email.text, password: _password.text);
+      final UserCredential authResult = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _email.text, password: _password.text);
+
+      final User? user = authResult.user;
+      if (user != null && user.emailVerified) {
+        // User is verified, allow login
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          // Navigate to your home screen or desired destination
+          return HomePage();
+        }));
+      } else if (user != null && !user.emailVerified) {
+        // User is not verified
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please verify your email before logging in.'),
+          ),
+        );
+        await FirebaseAuth.instance.signOut();
+      }
       setState(() {
         isLoading = false;
       });
@@ -110,7 +129,6 @@ class _LoginPageState extends State<LoginPage> {
                 height: 45,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-
                   onPressed: widget.onPressed,
                   child: const Text("SignUp"),
                 ),

@@ -21,11 +21,26 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         isLoading = true;
       });
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _email.text, password: _password.text);
-      setState(() {
-        isLoading = false;
-      });
+
+      final UserCredential authResult = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _email.text, password: _password.text);
+
+      final User? user = authResult.user;
+      if (user != null) {
+        // Send a verification email to the user
+        await user.sendEmailVerification();
+
+        setState(() {
+          isLoading = false;
+        });
+
+        return ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Verification email sent. Please check your email.'),
+          ),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       setState(() {
         isLoading = false;
@@ -49,6 +64,7 @@ class _SignUpState extends State<SignUp> {
       });
       print(e);
     }
+    //Email verification
   }
 
   @override
