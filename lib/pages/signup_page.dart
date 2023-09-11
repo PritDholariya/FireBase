@@ -55,6 +55,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         centerTitle: true,
         title: const Text("Sign Up"),
       ),
@@ -92,10 +93,11 @@ class _SignUpState extends State<SignUp> {
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       createUserWithEmailAndPassword();
-                      // print("Validation is done");
+                      print("Validation is done");
                     }
                   },
                   child: isLoading
@@ -111,6 +113,7 @@ class _SignUpState extends State<SignUp> {
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                   onPressed: widget.onPressed,
                   child: const Text("Login"),
                 ),

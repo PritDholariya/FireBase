@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         centerTitle: true,
         title: const Text("Login"),
       ),
@@ -89,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       signInWithEmailAndPassword();
@@ -107,6 +109,8 @@ class _LoginPageState extends State<LoginPage> {
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+
                   onPressed: widget.onPressed,
                   child: const Text("SignUp"),
                 ),
